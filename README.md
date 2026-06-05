@@ -1,5 +1,7 @@
 # BSC Four.meme 叙事源追踪与算法模型
 
+中文 | [English](README.en.md)
+
 这是从原始链上复盘拆出来的新项目。旧仓库 `hahahakang/bsc-fourmeme-analysis` 保留原文章和链上复盘；本仓库专门承接后续工作：追踪 token 最早的叙事来源、消息源强相关性、买入后的发酵窗口，以及 BSC 打狗机器人可复用的信号规则。
 
 公开网站：
@@ -40,10 +42,6 @@ https://hahahakang.github.io/bsc-fourmeme-narrative-source-analysis/
 - `data/fdv_bucket_summary.csv`
 - `data/top_winners.csv`
 - `data/top_losers.csv`
-
-## English Summary
-
-This repository is a separate follow-up to the original BSC Four.meme onchain report. It tracks narrative origin events, strongly related information sources, post-entry fermentation windows, and reusable signal rules for a future BSC meme-token research bot. The website opens in Chinese by default and includes an English toggle for public collaboration.
 
 ## 口径说明
 
