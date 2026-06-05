@@ -1,4 +1,4 @@
-# BSC Four.meme Narrative Research
+# BSC Four.meme Narrative Source Analysis
 
 公开研究台：基于 BSC Four.meme 交易员链上数据，扩展为叙事源追踪、买入后发酵窗口统计和 BSC 打狗算法模型沉淀。
 
@@ -6,7 +6,9 @@ Public dashboard: reconstructs a BSC Four.meme trader's onchain behavior, then a
 
 ## Public Site
 
-https://hahahakang.github.io/bsc-fourmeme-analysis/
+https://hahahakang.github.io/bsc-fourmeme-narrative-source-analysis/
+
+This project is intentionally separate from `hahahakang/bsc-fourmeme-analysis`, which should keep the original article/report.
 
 ## What This Version Adds
 
