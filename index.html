@@ -38,6 +38,66 @@
     h2 { margin: 0 0 12px; font-size: 19px; }
     h3 { margin: 10px 0 8px; font-size: 16px; }
     p { margin: 0 0 10px; }
+    body[data-lang="zh"] .en,
+    body[data-lang="en"] .zh {
+      display: none !important;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .eyebrow {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+    .lede {
+      max-width: 920px;
+      color: #344054;
+      font-size: 16px;
+    }
+    .lang-switch {
+      display: inline-flex;
+      gap: 4px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 4px;
+      background: #f8fafc;
+      flex-shrink: 0;
+    }
+    .lang-btn {
+      min-height: 30px;
+      border: 0;
+      border-radius: 6px;
+      padding: 5px 10px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .lang-btn[aria-pressed="true"] {
+      background: var(--accent);
+      color: #fff;
+    }
+    .anchor-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0 10px;
+    }
+    .anchor-nav a {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 10px;
+      color: var(--ink);
+      text-decoration: none;
+      background: #fbfcfe;
+      font-size: 13px;
+    }
     section {
       background: var(--panel);
       border: 1px solid var(--line);
@@ -72,6 +132,23 @@
     .metric span { color: var(--muted); font-size: 13px; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .reader-flow {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .flow-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fbfcfe;
+      min-height: 150px;
+    }
+    .flow-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+    }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -126,51 +203,109 @@
     ul { margin: 8px 0 0 18px; padding: 0; }
     li { margin: 4px 0; }
     @media (max-width: 920px) {
-      .summary, .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .summary, .grid-2, .grid-3, .reader-flow { grid-template-columns: 1fr; }
+      .topbar { align-items: flex-start; flex-direction: column; }
       section { padding: 14px; }
     }
   </style>
 </head>
-<body>
+<body data-lang="zh">
   <header>
     <div class="wrap">
-      <h1>BSC Four.meme 叙事源与算法模型研究台</h1>
-      <p class="muted">基于 2026 年 1-6 月交易员链上数据，扩展为“叙事源追踪 + 买入后发酵窗口 + 机器人规则沉淀”。公开更新时间：2026-06-05</p>
-      <p class="notice">公开研究版本：链上交易、FDV、窗口胜率为可复核数据；叙事源已新增第一批 source ledger。A/B/C/D/E 是证据等级，不是买入评级；未补原始帖的样本仍按待核验处理。</p>
-      <div class="filters">
-        <a class="button primary" href="data/source_timeline_research.csv">下载叙事源时间线</a>
-        <a class="button" href="data/source_library.csv">下载源头库</a>
-        <a class="button primary" href="data/narrative_candidates.csv">下载叙事候选样本</a>
-        <a class="button" href="data/fermentation_window_summary.csv">下载窗口统计</a>
-        <a class="button" href="data/source_signal_model.csv">下载模型规则</a>
+      <div class="topbar">
+        <div class="eyebrow">
+          <span class="zh">公开研究站 / 新项目</span>
+          <span class="en">Public Research Site / New Project</span>
+        </div>
+        <div class="lang-switch" aria-label="Language">
+          <button class="lang-btn" type="button" data-set-lang="zh" aria-pressed="true">中文</button>
+          <button class="lang-btn" type="button" data-set-lang="en" aria-pressed="false">English</button>
+        </div>
+      </div>
+      <h1>
+        <span class="zh">BSC Four.meme 叙事源追踪与算法模型</span>
+        <span class="en">BSC Four.meme Narrative Source & Signal Model</span>
+      </h1>
+      <p class="lede">
+        <span class="zh">这是从原链上复盘拆出来的新项目：不覆盖原文章，专门追踪“故事最早从哪里来”、谁是强相关消息源，以及买入后不同发酵窗口的盈利概率。</span>
+        <span class="en">This is a separate project split from the original onchain report. It tracks where each story started, which sources are strongly related to the token, and which post-entry fermentation windows historically worked better.</span>
+      </p>
+      <p class="muted">
+        <span class="zh">公开更新时间：2026-06-05。数据来自 2026 年 1-6 月 BSC Four.meme 交易员链上样本。</span>
+        <span class="en">Public update: 2026-06-05. Dataset: BSC Four.meme trader activity from January to June 2026.</span>
+      </p>
+      <p class="notice">
+        <span class="zh">研究口径：链上交易、FDV、窗口胜率是可复核数据；叙事源是证据层。A/B/C/D/E 是证据等级，不是买入评级；未补原始帖的样本继续按待核验处理。</span>
+        <span class="en">Research scope: onchain trades, FDV, and window statistics are reproducible data; narrative sources are evidence objects. A/B/C/D/E are evidence grades, not buy ratings. Samples without original links remain unverified.</span>
+      </p>
+      <nav class="anchor-nav" aria-label="Report sections">
+        <a href="#summary"><span class="zh">核心结论</span><span class="en">Summary</span></a>
+        <a href="#source-timeline"><span class="zh">叙事源时间线</span><span class="en">Source Timeline</span></a>
+        <a href="#windows"><span class="zh">买入窗口</span><span class="en">Entry Windows</span></a>
+        <a href="#model"><span class="zh">算法模型</span><span class="en">Signal Model</span></a>
+      </nav>
+      <div class="filters actions">
+        <a class="button primary" href="data/source_timeline_research.csv"><span class="zh">下载叙事源时间线</span><span class="en">Source timeline CSV</span></a>
+        <a class="button" href="data/source_library.csv"><span class="zh">下载源头库</span><span class="en">Source library CSV</span></a>
+        <a class="button primary" href="data/narrative_candidates.csv"><span class="zh">下载叙事候选样本</span><span class="en">Candidate pool CSV</span></a>
+        <a class="button" href="data/fermentation_window_summary.csv"><span class="zh">下载窗口统计</span><span class="en">Window stats CSV</span></a>
+        <a class="button" href="data/source_signal_model.csv"><span class="zh">下载模型规则</span><span class="en">Model rules CSV</span></a>
       </div>
     </div>
   </header>
   <main>
-    <section>
-      <h2>核心判断</h2>
+    <section id="summary">
+      <h2><span class="zh">核心判断</span><span class="en">Core View</span></h2>
       <div class="summary" id="metrics"></div>
     </section>
 
-    <section class="grid-2">
-      <div>
-        <h2>这轮新增了什么</h2>
-        <p>上一个版本回答“这个交易员到底在哪个 FDV 节点赚钱”。这一个版本开始回答更关键的问题：他买的 token 背后有没有源头，源头是人物、公司、项目、官方功能，还是纯社区 meme？</p>
-        <p>目前源头字段采用“可追踪候选”口径：链上事实是已计算数据；叙事来源是待核验证据层。没有原始链接的，不会伪装成结论。</p>
-      </div>
-      <div>
-        <h2>模型方向</h2>
-        <p>先让机器人做信息雷达：发现源头、抓第一批 token、计算 FDV/流动性/成交窗口、判断 leader/copycat，再推送人工确认。自动买入必须等样本库足够大。</p>
-        <p>时间优势是核心变量：源头出现、token 部署、池子形成、交易员买入、大号放大、价格突破，每个时间差都要记录。</p>
+    <section id="read-first">
+      <h2><span class="zh">先读这三件事</span><span class="en">Read These Three Points First</span></h2>
+      <div class="reader-flow">
+        <div class="flow-card">
+          <strong><span class="zh">1. 原文章已保留</span><span class="en">1. Original Article Preserved</span></strong>
+          <p class="zh">旧仓库 <code>bsc-fourmeme-analysis</code> 继续保留原来的链上复盘文章；本仓库只承接后续“叙事源 + 交易窗口 + 模型沉淀”的工作。</p>
+          <p class="en">The old <code>bsc-fourmeme-analysis</code> repository keeps the original onchain article. This repository holds the follow-up source tracking, timing statistics, and model work.</p>
+        </div>
+        <div class="flow-card">
+          <strong><span class="zh">2. 先找故事源头</span><span class="en">2. Start From The Source</span></strong>
+          <p class="zh">每个样本都尽量拆成“源头实体、源头事件、买入相对源头的时间差、强相关程度、机器人意义”。没有原始链接就降级处理。</p>
+          <p class="en">Each sample is broken into source entity, source event, buy-vs-source timing, relationship strength, and bot implication. Missing original links are downgraded.</p>
+        </div>
+        <div class="flow-card">
+          <strong><span class="zh">3. 模型先提醒，不自动梭哈</span><span class="en">3. Alert First, Automate Later</span></strong>
+          <p class="zh">当前目标是沉淀信号规则：先做信息雷达和人工确认，再讨论半自动执行。样本库足够大之前，不把单案例包装成确定性。</p>
+          <p class="en">The current goal is a signal rulebook: build radar and human confirmation first, then discuss semi-automation. Single cases are not treated as certainty.</p>
+        </div>
       </div>
     </section>
 
-    <section>
-      <h2>已追踪叙事源时间线（第一批样本）</h2>
-      <p class="muted">这一层专门回答“最开始的故事从哪里来”。A=原始/官方源，B=强二手且嵌入原帖，C=项目页/行情页归因，D=后验社区解释，E=暂未找到源头。买入窗口仍以链上数据为准。</p>
+    <section class="grid-2" id="research-map">
+      <div>
+        <h2><span class="zh">这轮新增了什么</span><span class="en">What This Version Adds</span></h2>
+        <p class="zh">上一个版本回答“这个交易员到底在哪个 FDV 节点赚钱”。这个版本继续往前追：他买的 token 背后有没有源头，源头是人物、公司、项目、官方功能，还是纯社区 meme？</p>
+        <p class="zh">目前源头字段采用“可追踪候选”口径：链上事实是已计算数据；叙事来源是待核验证据层。没有原始链接的，不会伪装成结论。</p>
+        <p class="en">The previous version answered where the trader made money by FDV bucket. This version moves upstream: did each token have a source, and was the source a person, company, project, official feature, or community meme?</p>
+        <p class="en">The source fields are tracked as evidence candidates. Onchain facts are calculated data; narrative origins are an evidence layer. Missing original links are not presented as conclusions.</p>
+      </div>
+      <div>
+        <h2><span class="zh">模型方向</span><span class="en">Model Direction</span></h2>
+        <p class="zh">先让机器人做信息雷达：发现源头、抓第一批 token、计算 FDV/流动性/成交窗口、判断 leader/copycat，再推送人工确认。自动买入必须等样本库足够大。</p>
+        <p class="zh">时间优势是核心变量：源头出现、token 部署、池子形成、交易员买入、大号放大、价格突破，每个时间差都要记录。</p>
+        <p class="en">The first bot should be an information radar: detect sources, capture the first token batch, calculate FDV/liquidity/trading windows, score leader versus copycat, and then ask for human confirmation.</p>
+        <p class="en">Time advantage is the key variable: source publication, token deployment, pool formation, trader entry, influencer amplification, and price breakout all need timestamps.</p>
+      </div>
+    </section>
+
+    <section id="source-timeline">
+      <h2><span class="zh">已追踪叙事源时间线（第一批样本）</span><span class="en">Tracked Narrative Source Timeline: First Batch</span></h2>
+      <p class="muted">
+        <span class="zh">这一层专门回答“最开始的故事从哪里来”。A=原始/官方源，B=强二手且嵌入原帖，C=项目页/行情页归因，D=后验社区解释，E=暂未找到源头。买入窗口仍以链上数据为准。</span>
+        <span class="en">This layer answers where the story first came from. A=original/official source, B=strong secondary source with original-post context, C=project/market-page attribution, D=post-hoc community explanation, E=no matched source yet. Entry windows still come from onchain data.</span>
+      </p>
       <div class="table-scroll"><table>
         <thead><tr>
-          <th>等级</th><th>token / 案例</th><th>买入时间 UTC</th><th>收益</th><th>源头实体</th><th>源头事件</th><th>源头时间差</th><th>关系判断</th><th>机器人含义</th>
+          <th><span class="zh">等级</span><span class="en">Grade</span></th><th>token / case</th><th><span class="zh">买入时间 UTC</span><span class="en">Entry Time UTC</span></th><th><span class="zh">收益</span><span class="en">PnL</span></th><th><span class="zh">源头实体</span><span class="en">Source Entity</span></th><th><span class="zh">源头事件</span><span class="en">Source Event</span></th><th><span class="zh">源头时间差</span><span class="en">Timing Gap</span></th><th><span class="zh">关系判断</span><span class="en">Relationship</span></th><th><span class="zh">机器人含义</span><span class="en">Bot Implication</span></th>
         </tr></thead>
         <tbody>
           <tr><td><span class="pill">B</span></td><td><code>CZ BNB</code><br><code class="muted">0x6114...4444</code></td><td>2026-04-03 07:11</td><td class="win">+6.0304 BNB</td><td><a href="https://ourcryptotalk.com/news/cz-memoir-freedom-of-money-release">CZ / Freedom of Money</a></td><td>CZ在X与Binance Square预告自传，4月8日发行，重新激活CZ/BNB个人叙事。</td><td>同日；精确分钟待补原帖</td><td>创始人强相关，名称直接绑定CZ与BNB。</td><td>创始人长文、书籍、AMA、重大公开叙事出现时，扫描0-50k首批衍生token。</td></tr>
@@ -188,11 +323,14 @@
       </table></div>
     </section>
 
-    <section>
-      <h2>源头库与可执行规则</h2>
-      <p class="muted">源头库是后续机器人真正要维护的资产：每个源头都记录命中、误报、领先时间和典型类别。下面是第一批可入库对象。</p>
+    <section id="source-library">
+      <h2><span class="zh">源头库与可执行规则</span><span class="en">Source Library & Executable Rules</span></h2>
+      <p class="muted">
+        <span class="zh">源头库是后续机器人真正要维护的资产：每个源头都记录命中、误报、领先时间和典型类别。下面是第一批可入库对象。</span>
+        <span class="en">The source library is the durable asset for the future bot: every source should record hits, false positives, lead time, and typical narrative category. Below is the first batch.</span>
+      </p>
       <div class="table-scroll"><table>
-        <thead><tr><th>源头</th><th>类型</th><th>已命中/案例</th><th>典型领先时间</th><th>使用方式</th><th>主要误报</th></tr></thead>
+        <thead><tr><th><span class="zh">源头</span><span class="en">Source</span></th><th><span class="zh">类型</span><span class="en">Type</span></th><th><span class="zh">已命中/案例</span><span class="en">Hits / Cases</span></th><th><span class="zh">典型领先时间</span><span class="en">Typical Lead Time</span></th><th><span class="zh">使用方式</span><span class="en">How To Use</span></th><th><span class="zh">主要误报</span><span class="en">False Positives</span></th></tr></thead>
         <tbody>
           <tr><td>CZ / Binance founder</td><td>person_founder</td><td>CZ BNB, CS</td><td>分钟到数天</td><td>原帖/长文/书籍/争议触发后，找首个0-50k衍生token。</td><td>无事件的泛CZ名字币。</td></tr>
           <tr><td>Binance official / product</td><td>official_account</td><td>Dinance, Binance Trade Stock</td><td>分钟到小时</td><td>官方推文、support公告、App功能曝光、WOTD主题都入雷达。</td><td>品牌擦边copycat。</td></tr>
@@ -204,68 +342,90 @@
       </table></div>
     </section>
 
-    <section>
-      <h2>买入后发酵/持有窗口统计</h2>
-      <p class="muted">这里先用“首次买入到最后一次交易”的时间差近似观察该交易员愿意等多久，以及每个窗口的胜率/收益。后续补上“首次公开叙事源 -> 买入 -> 放大”的真正传播窗口。</p>
+    <section id="windows">
+      <h2><span class="zh">买入后发酵/持有窗口统计</span><span class="en">Post-Entry Fermentation / Holding Windows</span></h2>
+      <p class="muted">
+        <span class="zh">这里先用“首次买入到最后一次交易”的时间差近似观察该交易员愿意等多久，以及每个窗口的胜率/收益。后续补上“首次公开叙事源 -> 买入 -> 放大”的真正传播窗口。</span>
+        <span class="en">This first approximates how long the trader was willing to wait by measuring first buy to last trade, then summarizes win rate and PnL by window. Later we should add the real propagation chain: first public source -> buy -> amplification.</span>
+      </p>
       <div class="table-scroll"><table id="windowTable"><thead><tr>
-        <th>窗口类型</th><th>窗口</th><th>token 数</th><th>胜率</th><th>总收益 BNB</th><th>平均收益</th><th>中位收益</th><th>最大盈利</th><th>最大亏损</th><th>平均 FDV</th><th>平均流动性</th>
+        <th><span class="zh">窗口类型</span><span class="en">Window Type</span></th><th><span class="zh">窗口</span><span class="en">Window</span></th><th><span class="zh">token 数</span><span class="en">Tokens</span></th><th><span class="zh">胜率</span><span class="en">Win Rate</span></th><th><span class="zh">总收益 BNB</span><span class="en">Total PnL BNB</span></th><th><span class="zh">平均收益</span><span class="en">Avg PnL</span></th><th><span class="zh">中位收益</span><span class="en">Median PnL</span></th><th><span class="zh">最大盈利</span><span class="en">Max Win</span></th><th><span class="zh">最大亏损</span><span class="en">Max Loss</span></th><th><span class="zh">平均 FDV</span><span class="en">Avg FDV</span></th><th><span class="zh">平均流动性</span><span class="en">Avg Liquidity</span></th>
       </tr></thead><tbody></tbody></table></div>
     </section>
 
     <section>
-      <h2>FDV 桶 × 持有窗口</h2>
+      <h2><span class="zh">FDV 桶 × 持有窗口</span><span class="en">FDV Bucket x Holding Window</span></h2>
       <div class="table-scroll"><table id="bucketWindowTable"><thead><tr>
-        <th>买入 FDV 桶</th><th>持有/发酵窗口</th><th>token 数</th><th>胜率</th><th>总收益 BNB</th><th>平均收益</th><th>中位收益</th><th>最大盈利</th><th>最大亏损</th>
+        <th><span class="zh">买入 FDV 桶</span><span class="en">Entry FDV Bucket</span></th><th><span class="zh">持有/发酵窗口</span><span class="en">Holding Window</span></th><th><span class="zh">token 数</span><span class="en">Tokens</span></th><th><span class="zh">胜率</span><span class="en">Win Rate</span></th><th><span class="zh">总收益 BNB</span><span class="en">Total PnL BNB</span></th><th><span class="zh">平均收益</span><span class="en">Avg PnL</span></th><th><span class="zh">中位收益</span><span class="en">Median PnL</span></th><th><span class="zh">最大盈利</span><span class="en">Max Win</span></th><th><span class="zh">最大亏损</span><span class="en">Max Loss</span></th>
       </tr></thead><tbody></tbody></table></div>
     </section>
 
-    <section>
-      <h2>叙事源追踪候选池</h2>
+    <section id="candidates">
+      <h2><span class="zh">叙事源追踪候选池</span><span class="en">Narrative Source Candidate Pool</span></h2>
       <div class="filters">
-        <select id="tagFilter"><option value="">全部叙事标签</option></select>
-        <select id="bucketFilter"><option value="">全部 FDV 桶</option></select>
-        <input id="searchInput" placeholder="搜索 token、名称、叙事标签、地址">
-        <button id="resetBtn" type="button">重置</button>
+        <select id="tagFilter"><option value="" data-zh="全部叙事标签" data-en="All narrative tags">全部叙事标签</option></select>
+        <select id="bucketFilter"><option value="" data-zh="全部 FDV 桶" data-en="All FDV buckets">全部 FDV 桶</option></select>
+        <input id="searchInput" data-placeholder-zh="搜索 token、名称、叙事标签、地址" data-placeholder-en="Search token, name, narrative tag, address" placeholder="搜索 token、名称、叙事标签、地址">
+        <button id="resetBtn" type="button"><span class="zh">重置</span><span class="en">Reset</span></button>
       </div>
       <div class="table-scroll"><table id="candidateTable"><thead><tr>
-        <th>优先级</th><th>token</th><th>名称</th><th>买入时间 UTC</th><th>FDV 桶</th><th>买入 FDV</th><th>收益 BNB</th><th>ROI</th><th>持有窗口</th><th>叙事标签</th><th>源头类型猜测</th><th>证据状态</th><th>说明</th>
+        <th><span class="zh">优先级</span><span class="en">Priority</span></th><th>token</th><th><span class="zh">名称</span><span class="en">Name</span></th><th><span class="zh">买入时间 UTC</span><span class="en">Entry Time UTC</span></th><th><span class="zh">FDV 桶</span><span class="en">FDV Bucket</span></th><th><span class="zh">买入 FDV</span><span class="en">Entry FDV</span></th><th><span class="zh">收益 BNB</span><span class="en">PnL BNB</span></th><th>ROI</th><th><span class="zh">持有窗口</span><span class="en">Holding Window</span></th><th><span class="zh">叙事标签</span><span class="en">Narrative Tag</span></th><th><span class="zh">源头类型猜测</span><span class="en">Source Type Guess</span></th><th><span class="zh">证据状态</span><span class="en">Evidence Status</span></th><th><span class="zh">说明</span><span class="en">Note</span></th>
       </tr></thead><tbody></tbody></table></div>
     </section>
 
-    <section>
-      <h2>机器人算法模型沉淀</h2>
+    <section id="model">
+      <h2><span class="zh">机器人算法模型沉淀</span><span class="en">Bot Signal Model Draft</span></h2>
       <div class="table-scroll"><table id="modelTable"><thead><tr>
-        <th>规则</th><th>触发器</th><th>入场窗口</th><th>市场节点</th><th>证据</th><th>动作</th><th>状态</th>
+        <th><span class="zh">规则</span><span class="en">Rule</span></th><th><span class="zh">触发器</span><span class="en">Trigger</span></th><th><span class="zh">入场窗口</span><span class="en">Entry Window</span></th><th><span class="zh">市场节点</span><span class="en">Market Node</span></th><th><span class="zh">证据</span><span class="en">Evidence</span></th><th><span class="zh">动作</span><span class="en">Action</span></th><th><span class="zh">状态</span><span class="en">Status</span></th>
       </tr></thead><tbody></tbody></table></div>
     </section>
 
     <section class="grid-3">
       <div>
-        <h2>下一步数据源</h2>
-        <ul>
+        <h2><span class="zh">下一步数据源</span><span class="en">Next Data Sources</span></h2>
+        <ul class="zh">
           <li>X 原始帖：公司、项目、创始人、KOL、官方账号。</li>
           <li>Four.meme 新币创建和池子形成事件。</li>
           <li>DEX/GeckoTerminal/Bitquery 的早期 OHLCV、交易量、流动性。</li>
           <li>Telegram/Discord/社区监控频道作为放大层，不当作源头。</li>
         </ul>
+        <ul class="en">
+          <li>Original X posts from companies, projects, founders, KOLs, and official accounts.</li>
+          <li>Four.meme token creation and pool formation events.</li>
+          <li>Early OHLCV, volume, and liquidity from DEX/GeckoTerminal/Bitquery.</li>
+          <li>Telegram/Discord/community monitors as amplification layers, not primary sources.</li>
+        </ul>
       </div>
       <div>
-        <h2>证据等级</h2>
-        <ul>
+        <h2><span class="zh">证据等级</span><span class="en">Evidence Grades</span></h2>
+        <ul class="zh">
           <li>A：官方/创始人/公司原始链接，且早于 token 爆发。</li>
           <li>B：早期解释账号，早于大面积传播。</li>
           <li>C：快速部署者或平台事件。</li>
           <li>D：大号放大，更多是卖出/避险参考。</li>
           <li>E：无链接、截图、转述，暂不入模型。</li>
         </ul>
+        <ul class="en">
+          <li>A: original official/founder/company link before token breakout.</li>
+          <li>B: early explanation account before broad spread.</li>
+          <li>C: fast deployer or platform-event attribution.</li>
+          <li>D: influencer amplification, more useful for exit/risk control.</li>
+          <li>E: no link, screenshot, or verifiable source; excluded from the model for now.</li>
+        </ul>
       </div>
       <div>
-        <h2>风控边界</h2>
-        <ul>
+        <h2><span class="zh">风控边界</span><span class="en">Risk Boundaries</span></h2>
+        <ul class="zh">
           <li>不要从单案例直接全自动买。</li>
           <li>跳过高 FDV 追高、薄池、疑似貔貅、伪官方。</li>
           <li>记录每次命中和误报，source library 比单次收益更重要。</li>
           <li>先提醒、再半自动、最后才讨论自动执行。</li>
+        </ul>
+        <ul class="en">
+          <li>Do not turn one case into a fully automated buy rule.</li>
+          <li>Skip high-FDV chasing, thin pools, honeypot-like tokens, and fake official names.</li>
+          <li>Record every hit and false positive; the source library matters more than one trade.</li>
+          <li>Alert first, then semi-automate, and only later discuss full execution.</li>
         </ul>
       </div>
     </section>
@@ -296,18 +456,35 @@
       return rows.map(r => Object.fromEntries(headers.map((h, i) => [h, r[i] ?? ''])));
     }
 
+    let currentLang = 'zh';
+
     function fillMetrics(candidates, windows) {
       const wins = candidates.filter(r => Number(r.realized_pnl_bnb) > 0);
       const high = candidates.filter(r => Number(r.research_priority) >= 75);
       const sourceKnown = candidates.filter(r => !['unknown','unmapped_chinese_meme'].includes(r.narrative_tag));
       const totalPnl = candidates.reduce((s, r) => s + Number(r.realized_pnl_bnb || 0), 0);
       const items = [
-        ['候选样本', candidates.length, '优先追踪的盈利/亏损/有名 token'],
-        ['可初分叙事', sourceKnown.length, '根据名称和描述可归类，仍需原始链接'],
-        ['高优先级', high.length, '适合先人工找源头的样本'],
-        ['样本净收益', (totalPnl >= 0 ? '+' : '') + fmt(totalPnl, 2) + ' BNB', '候选池口径，不是全量收益']
+        {
+          zh: ['候选样本', candidates.length, '优先追踪的盈利、亏损和有名 token'],
+          en: ['Candidate Samples', candidates.length, 'Profit, loss, and named-token samples prioritized for source research']
+        },
+        {
+          zh: ['可初分叙事', sourceKnown.length, '根据名称和描述可归类，仍需原始链接'],
+          en: ['Initial Narrative Tags', sourceKnown.length, 'Classified by names/descriptions; original links still needed']
+        },
+        {
+          zh: ['高优先级', high.length, '适合先人工找源头的样本'],
+          en: ['High Priority', high.length, 'Best samples for manual source verification first']
+        },
+        {
+          zh: ['样本净收益', (totalPnl >= 0 ? '+' : '') + fmt(totalPnl, 2) + ' BNB', '候选池口径，不是全量收益'],
+          en: ['Sample Net PnL', (totalPnl >= 0 ? '+' : '') + fmt(totalPnl, 2) + ' BNB', 'Candidate-pool scope, not full portfolio PnL']
+        }
       ];
-      document.querySelector('#metrics').innerHTML = items.map(([a,b,c]) => `<div class="metric"><strong>${b}</strong><span>${a}：${c}</span></div>`).join('');
+      document.querySelector('#metrics').innerHTML = items.map(item => {
+        const [a,b,c] = item[currentLang];
+        return `<div class="metric"><strong>${b}</strong><span>${a}: ${c}</span></div>`;
+      }).join('');
     }
 
     function fillWindowTable(rows) {
@@ -366,6 +543,30 @@
     fillFilters(candidates);
     renderCandidates();
     fillModel(model);
+
+    function setLang(lang) {
+      currentLang = lang === 'en' ? 'en' : 'zh';
+      document.body.dataset.lang = currentLang;
+      document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : 'en';
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.setAttribute('aria-pressed', String(btn.dataset.setLang === currentLang));
+      });
+      document.querySelectorAll('option[data-zh][data-en]').forEach(option => {
+        option.textContent = option.dataset[currentLang];
+      });
+      document.querySelectorAll('[data-placeholder-zh][data-placeholder-en]').forEach(input => {
+        input.placeholder = input.dataset[`placeholder${currentLang === 'zh' ? 'Zh' : 'En'}`];
+      });
+      fillMetrics(candidates, windows);
+      try { localStorage.setItem('bscNarrativeLang', currentLang); } catch (e) {}
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => setLang(btn.dataset.setLang));
+    });
+    setLang((() => {
+      try { return localStorage.getItem('bscNarrativeLang') || 'zh'; } catch (e) { return 'zh'; }
+    })());
   </script>
 </body>
 </html>
